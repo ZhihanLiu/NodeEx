@@ -1,0 +1,23 @@
+{
+  "name": "nodeex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "HelloWorld.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhihanLiu/NodeEx.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZhihanLiu/NodeEx/issues"
+  },
+  "homepage": "https://github.com/ZhihanLiu/NodeEx#readme",
+  "dependencies": {
+    "ejs": "^2.5.9",
+    "formidable": "^1.2.1"
+  }
+}
