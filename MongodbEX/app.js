@@ -1,39 +1,72 @@
 
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var session = require('express-session')
+const db = require("./models/db.js");
+/*
+var target = [{asd:"111"},{ss:1}];
+db.insert("test1",target,(err,result)=>{
 
-// Connection URL
-var url = 'mongodb+srv://zliu39:QWErtyu123@clustermgdb-opdll.mongodb.net/test?retryWrites=true&authSource=admin';
-//mongodb+srv://zliu39:<PASSWORD>@clustermgdb-opdll.mongodb.net/test?retryWrites=true
+  console.log(result);
+});
+target = {asd:'111'};
 
-// Use connect method to connect to the server
-const dbName = 'test';
- 
-// Use connect method to connect to the server
 
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
-   
-    const db = client.db(dbName);
-   
-    insertDocuments(db, function() {
-      client.close();
-    });
-  });
-  
-  const insertDocuments = function(db, callback) {
-    // Get the documents collection
-    const collection = db.collection('documents');
-    // Insert some documents
-    collection.insertMany([
-      {a : 1}, {a : 2}, {a : 3}
-    ], function(err, result) {
-      assert.equal(err, null);
-      assert.equal(3, result.result.n);
-      assert.equal(3, result.ops.length);
-      console.log("Inserted 3 documents into the collection");
-      callback(result);
-    });
+db.find("test",target,(err,docs)=>{
+  if(err) {
+    console.log(err);
+    return;
   }
+console.log("--------------------------------");
+console.log(docs);
+});
+db.find("test1",(err,docs)=>{
+if(err) {
+  console.log(err);
+  return;
+}
+console.log("--------------------------------");
+console.log(docs);
+});
+*/
+let ejs = require('ejs')
+var express = require('express')
+var app = express()
+
+app.set('view engine','ejs');
+app.use(express.static(__dirname +'/public'));
+
+
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+
+app.get('/',(req, res)=> {
+if(req.session.login) {
+  res.send("Welcome back");
+  return;
+}
+ res.render('index');
+}) ;
+
+app.get('/check',(req, res)=> {
+
+ console.log(req.query);
+ 
+
+ var target = {username : req.query.uname};
+ db.find("test","login",target,(err, result)=>{
+   if(err || result == null || result[0].psw != req.query.psw ) {
+    console.log(result);
+     console.log(result.psw );
+     console.log(req.query.psw);
+     res.send(err||"Failed");
+     
+   }
+   else{
+     console.log("ffinish");
+     req.session.login = true;
+    res.send("Welcome");
+   }
+ });
+
+
+ }) ;
+
+app.listen(3000);
