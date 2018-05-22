@@ -3,8 +3,8 @@ var MongoClient = require('mongodb').MongoClient
 , assert = require('assert');
 
 // Connection URL
-var url = 'mongodb+srv://zliu39:QWErtyu123@clustermgdb-opdll.mongodb.net/test?retryWrites=true&authSource=admin';
-//mongodb+srv://zliu39:<PASSWORD>@clustermgdb-opdll.mongodb.net/test?retryWrites=true
+var url = '';
+
 
 // Use connect method to connect to the server
 var dbName = '';
