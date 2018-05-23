@@ -50,3 +50,24 @@ function doLogin(req,res) {
      var target = {email: fields.email, psw: md5.encryption(fields.psw)};
      console.log( "login psw" + target.psw);
      //check if username exists
+     
+     db.find('test','login',target, (err,result)=> {
+         if(err){
+             res.send(err);
+         }
+         else{
+             if(result.length < 1) {
+               res.send("Failed to login")
+             }
+             else{
+               res.send("Success to login");
+             }
+         }
+     });
+
+    });
+}
+
+
+
+module.exports={doRegister,doLogin};
