@@ -2,26 +2,26 @@ const express = require("express");
 var app = express();
 const router = require("./controller/router.js");
 const ejs = require("ejs");
+var session = require('express-session')
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+
+  }))
 
 app.set("view engine","ejs");
 
 
-app.get("/", (req,res) => {
-    res.render("index");
-});
+app.get("/", router.showIndex);
 
 
-app.get("/register", (req,res) => {
+app.get("/register", router.register);
 
-    res.render("register");
-});
+app.get("/login", router.login);
 
-app.get("/login", (req,res) => {
-
-    res.render("login");
-});
-
-
+app.get("/logout",router.logout);
 
 app.post('/doRegister', router.doRegister);
 

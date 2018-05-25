@@ -14,13 +14,13 @@
     <h1>FAKE WEIBO</h1>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">WB</a>
+      <a class="navbar-brand" href="/">WB</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="#">Features</a>
           <a class="nav-item nav-link" href="#">Pricing</a>
           <a class="nav-item nav-link disabled" href="#">Disabled</a>
@@ -41,30 +41,21 @@
 
 
     </nav>
-    <form  name = "registerForm">
-        <div class="container">
-          <h1>Register</h1>
-          <p>Please fill in this form to create an account.</p>
-          <hr>
-      
-          <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Email" id = "email"name="email" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password"id = "psw" name="psw" required>
-      
-          <label for="psw-repeat"><b>Repeat Password</b></label>
-          <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-          <hr>
-          <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-      
-          <input type = "button"  id= "register"  value = "Register"></input>
-        </div>
-        
-        <div class="container signin">
-          <p>Already have an account? <a href="login">Sign in</a>.</p>
-        </div>
-      </form>
+
+    <form id = "registerForm" >
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" name = "email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control"  placeholder="Password" name = "psw" >
+            </div>
+
+            <input type = "button"  class="btn btn-default" id = "register" value = "register"></input>
+    </form>
+   
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -84,11 +75,15 @@ $("#register").click(function(e) {
    data.email = email;
    data.psw = psw
 
-        $.ajax({type:"POST",url:"/doRegister",data: data,success:function(response){   
+        $.ajax({type:"POST",url:"/doRegister",data: $("#registerForm").serialize(),success:function(response){   
+                    console.log(response);
                     alert(response);
+                    $(location).attr('href', '/'); 
                                 
             }
+         
         });
+       
    });
 });
    </script>
