@@ -2,7 +2,7 @@
 var db = require("../model/db.js");
 var formidable = require('formidable');
 var md5 = require("../model/md5.js");
-
+var postModel = require("../model/post.js");
 
 function logout(req,res) {
     req.session.email = "";
@@ -11,7 +11,10 @@ function logout(req,res) {
 }
 function showIndex(req,res) {
     console.log( req.session.login);
-    res.render("index" , {login : req.session.login,email :req.session.email});
+    postModel.find({},function (err, result){
+        
+        res.render("index", {login : req.session.login,email :req.session.email, card: result});
+    });
 }
  
 function login(req, res){
@@ -22,7 +25,30 @@ function register(req, res){
     res.render("register");
 }
 
+function postWeibo(req, res){
+    if(req.session.login != 1) {
+        res.redirect("login");
+        return;
+    }
+    postModel.find({ author:req.session.email},function (err, result){
+        res.render("myWeibo", {login : req.session.login,email :req.session.email, card: result});
+    });
+    
+}
+function doPost (req,res) {
 
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+     console.log(fields);
+     
+       var p = new postModel({content:fields.content,author:req.session.email })
+       console.log(p.content);
+       p.save(function (err) {
+        if (err) return handleError(err);
+             console.log("stored");
+       });
+    });
+}
 
 function doRegister(req,res) {
     var form = new formidable.IncomingForm();
@@ -95,4 +121,4 @@ function doLogin(req,res) {
 
 
 
-module.exports={logout, showIndex, login, register,doRegister,doLogin};
+module.exports={postWeibo,doPost,logout, showIndex, login, register,doRegister,doLogin};

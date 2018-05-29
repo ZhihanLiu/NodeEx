@@ -21,9 +21,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="#">Features</a>
-          <a class="nav-item nav-link" href="#">Pricing</a>
-          <a class="nav-item nav-link disabled" href="#">Disabled</a>
+          <a class="nav-item nav-link" href="/myWeibo">My WEIBO</a>
         </div>
    
       </div>
@@ -49,6 +47,19 @@
   
     </nav>
 
+    <% for ( var i = 0; i < card.length; i++){ %>
+      <div class="card">
+      <div class="card-header">
+        <%= card[i].author%>
+      </div>
+        <div class="card-body">
+         <h5 class="card-title">Special title treatment</h5>
+         <p class="card-text"><%= card[i].content%></p>
+         <p class="card-text"><%= card[i].date%></p>
+    
+        </div>
+      </div>
+      <%}%>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
