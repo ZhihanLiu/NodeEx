@@ -12,7 +12,7 @@ function logout(req,res) {
 function showIndex(req,res) {
     console.log( req.session.login);
     postModel.find({},function (err, result){
-        
+
         res.render("index", {login : req.session.login,email :req.session.email, card: result});
     });
 }
@@ -89,7 +89,16 @@ function doRegister(req,res) {
      });
 }
 
-
+function getChatRoom (req, res) {
+    if(req.session.login != 1) {
+        res.redirect("login");
+        return;
+    }
+    postModel.find({ author:req.session.email},function (err, result){
+        res.render("chatroom", {login : req.session.login,email :req.session.email, card: result});
+    });
+    
+}
 
 function doLogin(req,res) {
     var form = new formidable.IncomingForm();
@@ -121,4 +130,4 @@ function doLogin(req,res) {
 
 
 
-module.exports={postWeibo,doPost,logout, showIndex, login, register,doRegister,doLogin};
+module.exports={getChatRoom, postWeibo,doPost,logout, showIndex, login, register,doRegister,doLogin};

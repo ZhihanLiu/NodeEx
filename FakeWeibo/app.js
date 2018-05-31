@@ -2,7 +2,11 @@ const express = require("express");
 var app = express();
 const router = require("./controller/router.js");
 const ejs = require("ejs");
-var session = require('express-session')
+var session = require('express-session');
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+
 
 app.use(session({
     secret: 'keyboard cat',
@@ -28,5 +32,14 @@ app.post('/doRegister', router.doRegister);
 
 app.post('/doLogin', router.doLogin);
 app.post('/doPost', router.doPost);
+app.get('/chatroom',router.getChatRoom);
 
-app.listen(3000);
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    console.log("asdasd");
+    io.emit('chat message', msg);
+  });
+});
+    
+
+server.listen(3000);
